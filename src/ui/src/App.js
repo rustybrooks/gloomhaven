@@ -1,24 +1,22 @@
 import React from 'react'
-// import createStore from './global-store/createStore'
-// import { BrowserRouter, Route } from 'react-router-dom'
-
-// <BrowserRouter basename={process.env.PUBLIC_URL}>
+import createStore from './global-store/createStore'
+import { BrowserRouter, Route } from 'react-router-dom'
 
 const App = () => {
   return (
-    <div>
-    hi
-    </div>
-//    </BrowserRouter>
+    <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <div>
+      Hi
+      </div>
+    </BrowserRouter>
   )
 }
 
-// const initialValue = {
-// }
-//
-// const config = {}
+const initialValue = {
+}
 
-// export default createStore(App, initialValue, config)
-export default App
+const config = {}
+
+export default createStore(App, initialValue, config)
 
 
