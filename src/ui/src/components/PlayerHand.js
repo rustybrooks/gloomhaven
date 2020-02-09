@@ -1,19 +1,58 @@
 import React from 'react'
+import { withStore } from '../global-store'
+import injectSheet from "react-jss";
 
-const character = 'tinkerer'
-import data from '../data/character-ability-cards/tinkerer.json'
-const level = 1
+const styles = {
+  'foo': {
+    position : 'relative',
+    display: 'inline-block',
+    padding: 2,
 
-const PlayerHand = () => {
-  return <div>{
+    '& $wrapper': {
+      background: 'rgba(255, 255, 255,.25)',
+      'z-index': 10,
+      position : 'absolute',
+      top: 0,
+      left: 0,
+      height: '100%',
+      width: '100%',
+    },
 
-    data.cards.filter(card => card.level === 'X' || parseInt(card.level) <= level).map(card => {
-      const characterString = character.toLowerCase().replace(/ /g, "_");
-      const cardNameString = card.name.toLowerCase().replace(/ /g, "_").replace(/'/g, "");
+  },
 
-      return <img key={cardNameString} height={140} src={`/assets/character-ability-cards/${characterString}/${cardNameString}.png`}/>
-    })
-  }</div>
+  'wrapper': {
+  }
 }
 
-export default PlayerHand
+const PlayerHand = ({store, classes}) => {
+  const handleSelect = (card) => () => {
+    console.log("selected", card)
+    card.selected = !card.selected;
+    store.set(
+      'player', {...player, cards: new_cards}
+    )
+  }
+
+  let player = store.get('player')
+  if (!player) {
+    return <div>No player</div>
+  }
+
+  console.log("rendering")
+  return (
+    <div>
+      {
+        player.cards.map(card => {
+          return (
+            <div key={card.name} className={classes.foo} onClick={handleSelect(card)}>
+              <img height={140} src={card.url}/>
+              <div className={card.selected ? null : classes.wrapper}></div>
+            </div>
+          )
+        })
+      }
+    </div>
+  )
+}
+
+export default withStore(injectSheet(styles)(PlayerHand), ['player'])
