@@ -1,0 +1,18 @@
+version: '2'
+
+services:
+  gloom-ui:
+    build:
+      context: ./src/
+      dockerfile: ui/Dockerfile
+    image: gloom-ui:latest
+    container_name: gloom-ui
+    volumes:
+      - ./data/:/srv/data
+      - ./src/:/srv/src
+      - /srv/src/ui/app/node_modules
+    environment:
+      - ENVIRONMENT=dev
+    ports:
+      - 3000:3000
+

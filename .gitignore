@@ -1,0 +1,7 @@
+venv
+.idea
+*.pyc
+.DS_Store
+
+data/**
+src/ui/node_modules/**
