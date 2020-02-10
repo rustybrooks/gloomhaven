@@ -43,16 +43,22 @@ const styles = {
 const Player = ({classes, store}) => {
   const { player } = useParams()
 
-  console.log('Player', player)
   if (players[player.toLowerCase()] === undefined) {
     return <div>Unknown player: {player}</div>
   }
 
   let player_obj = {
     ...players[player.toLowerCase()],
+    state: 'setup',
   }
   player_obj.id = player_obj.character.toLowerCase().replace(/ /g, "_")
-  player_obj['cards'] = data[player_obj.character].cards.filter(
+  player_obj['cards'] = {
+    hand: [],
+    discard: [],
+    lost: [],
+    rejected: [],
+  }
+  player_obj.cards.hand  = data[player_obj.character].cards.filter(
     card => card.level === 'X' || parseInt(card.level) <= player_obj.level
   ).map(card => {
     const cardNameString = card.name.toLowerCase().replace(/ /g, "_").replace(/'/g, "")
@@ -60,7 +66,7 @@ const Player = ({classes, store}) => {
       url: `/assets/character-ability-cards/${player_obj.id}/${cardNameString}.png`,
       name: card.name,
       level: card.level,
-      selected: false,
+      // selected: false,
     }
   })
   React.useEffect(() => {
